@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, url_for, redirect, request, session, flash
 from functools import wraps
-from modelo.dao import UsuarioDAO
+from modelo.dao import *
 import os
 
 app = Flask(__name__)
@@ -39,43 +39,16 @@ def registrar_aluno():
 		telefone = request.form['telefone']
 		senha = request.form['senha']
 
-
-		'''
-		db = mysql.connect()
-		cursor = db.cursor()
-		print cursor
-		cursor.execute("SELECT id FROM papel WHERE permissao='aluno'")
-		papel_id = cursor.fetchone()[0]
-		papel_id = int(papel_id)
-		print papel_id
-
-		error = True
-		try:
-			cursor.execute("""INSERT INTO usuario(papel_id, email, senha, nome, sobrenome, telefone) VALUES (%s,%s,%s,%s,%s,%s)""",(papel_id, email, senha, nome, sobrenome, telefone))
-			db.commit()
-			print "chegou aqui"
-			cursor.execute("SELECT id FROM usuario WHERE email='" + email + "' AND senha='" + senha + "'")
-			usuario_id = cursor.fetchone()[0]
-			usuario_id = int(usuario_id)
-			print usuario_id
-			cursor.execute("""INSERT INTO aluno(matricula, usuario_id, polo) VALUES (%s,%s,%s)""",(matricula, usuario_id, polo))
-			db.commit()
-			print "chegou aqui"
-			error = False
-		except db.Error, e:
-			try:
-				db.rollback()
-				print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-			except IndexError:
-				print "MySQL Error: %s" % str(e)
-
-		if error == False:
+		papelDao = PapelDAO()
+		papel = papelDao.find_by_permissao("aluno")
+		alunoDao = AlunoDAO()
+		
+		if alunoDao.insert(papel.id, email, senha, nome, sobrenome, telefone, matricula, polo):
 			session['logged_in'] = True
 			flash("Seja bem vindo!")
 			return redirect(url_for("aluno"))
 		else:
 			flash('Problema para inserir os dados')
-		'''
 		
 	return render_template('registrar_aluno.html')
 
@@ -109,35 +82,6 @@ def login():
 				return redirect(url_for("aluno"))
 		else:
 			flash('email e/ou senha incorreto(s)')
-		'''
-		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT * FROM usuario WHERE email='" + email + "' AND senha='" + senha + "'")
-		data = cursor.fetchone()
-		
-		if data is None:
-			flash('email e/ou senha incorreto(s)')
-		else:
-			cursor.execute("SELECT papel_id FROM usuario WHERE email='" + email + "' AND senha='" + senha + "'")
-			papel_id = cursor.fetchone()[0]
-			papel_id = int(papel_id)
-
-			cursor.execute("SELECT permissao FROM papel WHERE id =" + str(papel_id))
-			data = cursor.fetchone()[0]
-		
-
-			if data == "administrador":
-				session['logged_in'] = True
-				flash("Seja bem vindo!")
-				return redirect(url_for("admin"))
-			elif data == "pedagogo" or data == "psicologo" or data == "assistente social":
-				session['logged_in'] = True
-				flash("Seja bem vindo!")
-				return redirect(url_for("funcionario"))
-			else:
-				session['logged_in'] = True
-				flash("Seja bem vindo!")
-				return redirect(url_for("aluno"))
-		'''
 	return render_template('login.html')
 
 @app.route("/admin")
