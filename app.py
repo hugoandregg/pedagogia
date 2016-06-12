@@ -52,6 +52,28 @@ def registrar_aluno():
 		
 	return render_template('registrar_aluno.html')
 
+@app.route("/registrar_funcionario", methods=['GET', 'POST'])
+def registrar_funcionario():
+	if request.method == 'POST':
+		nome = request.form['nome']
+		sobrenome = request.form['sobrenome']
+		papel = request.form['papel']
+		email = request.form['email']
+		sala = request.form['sala']
+		ramal = request.form['ramal']
+		telefone = request.form['telefone']
+		senha = request.form['senha']
+
+		papelDao = PapelDAO()
+		papel = papelDao.find_by_permissao(papel)
+		funcionarioDao = FuncionarioDAO()
+
+		if funcionarioDao.insert(papel.id, email, senha, nome, sobrenome, telefone, sala, ramal):
+			flash("Usuario cadastrado com sucesso!")
+			return redirect(url_for("admin"))
+		else:
+			flash('Problema para cadastrar funcionario')
+	return render_template('registrar_funcionario.html')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
