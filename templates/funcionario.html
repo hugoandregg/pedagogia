@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+	{% if expedientes is none %}
+		<h3 class="text-center">Você não registrou nenhum expediente :(</h3>
+	{% else %}
+		{% for expediente in expedientes %}
+        	<p>{{ expediente.funcionario_id }}</p>
+      	{% endfor %}
+    {% endif %}
+{% endblock %}

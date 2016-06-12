@@ -10,10 +10,10 @@ app.secret_key = os.urandom(24)
 def login_required(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
-		if 'logged_in' in session:
+		if 'current_user' in session:
 			return f(*args, **kwargs)
 		else:
-			flash('Você precisa logar primeiro')
+			flash('Voce precisa logar primeiro')
 			return redirect(url_for('login'))
 	return wrap
 
@@ -44,7 +44,9 @@ def registrar_aluno():
 		alunoDao = AlunoDAO()
 		
 		if alunoDao.insert(papel.id, email, senha, nome, sobrenome, telefone, matricula, polo):
-			session['logged_in'] = True
+			usuarioDao = UsuarioDAO()
+			usuario = usuarioDao.find_by_email(email)
+			session['current_user'] = usuario.id
 			flash("Seja bem vindo!")
 			return redirect(url_for("aluno"))
 		else:
@@ -91,15 +93,15 @@ def login():
 			print permissao
 
 			if permissao == "administrador":
-				session['logged_in'] = True
+				session['current_user'] = usuario.id
 				flash("Seja bem vindo!")
 				return redirect(url_for("admin"))
 			elif permissao == "pedagogo" or permissao == "psicologo" or permissao == "assistente social":
-				session['logged_in'] = True
+				session['current_user'] = usuario.id
 				flash("Seja bem vindo!")
 				return redirect(url_for("funcionario"))
 			else:
-				session['logged_in'] = True
+				session['current_user'] = usuario.id
 				flash("Seja bem vindo!")
 				return redirect(url_for("aluno"))
 		else:
@@ -114,17 +116,25 @@ def admin():
 @app.route("/funcionario")
 @login_required
 def funcionario():
-	return "welcome funcionario"
+	usuario = current_user()
+	expedienteDao = ExpedienteDAO()
+	expedientes = expedienteDao.find_by_funcionario(usuario.id)
+	return render_template('funcionario.html', expedientes=expedientes)
 
 @app.route("/aluno")
 @login_required
 def aluno():
 	return "welcome aluno"
 
+def current_user():
+	usuarioDao = UsuarioDAO()
+	usuario = usuarioDao.find_by_id(session['current_user'])
+	return usuario
+
 @app.route("/logout")
 @login_required
 def logout():
-    session.pop('logged_in', None)
+    session.pop('current_user', None)
     flash('Deslogado com sucesso!')
     return redirect(url_for('main'))
 

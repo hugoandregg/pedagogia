@@ -461,6 +461,18 @@ class ExpedienteDAO(object):
 		expediente = Expediente(data)
 		return expediente
 
+	def find_by_funcionario(self, funcionario_id):
+		funcionario_id = str(funcionario_id)
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * FROM expediente WHERE funcionario_id=" + funcionario_id)
+		data = cursor.fetchall()
+
+		expediente = None
+		expedientes = []
+		for row in data:
+			expediente = Expediente(row)
+			expedientes.append(expediente)
+
 	def find_all(self):
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT * FROM expediente")
