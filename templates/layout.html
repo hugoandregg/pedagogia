@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <title>Pedagogia</title>    
+  </head>
+  <body>
+   
+    <header>
+      <div class="container">
+        <h1 class="logo">Agendamento</h1>
+      </div>
+    </header> 
+     
+    <div class="container">
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-success" role="alert">
+        {{ message }}
+        </div>
+      {% endfor %}
+      
+      {% block content %}
+      {% endblock %}
+    </div>
+     
+  </body>
+</html>

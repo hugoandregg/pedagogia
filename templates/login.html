@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Pedagogia</title>
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block content %}
 	<form action="" method="post">
 		Email: <input type="text" name="email" /><br />
 		Senha: <input type="password" name="senha" /><br />
 		<input type="submit" value="login" />
 	</form>
-</body>
-</html>
+{% endblock %}

@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Registrar aluno</title>
-</head>
-<body>
-	{% for message in get_flashed_messages() %}
-      <div class="alert alert-success" role="alert">
-      {{ message }}
-      </div>
-    {% endfor %}
+{% extends 'layout.html' %}
+{% block content %}
 	<form action="" method="post">
 		Nome: <input type="text" name="nome" /><br />
 		Sobrenome: <input type="text" name="sobrenome" /><br />
@@ -19,5 +10,4 @@
 		Senha: <input type="password" name="senha" /><br />
 		<input type="submit" value="Registrar">
 	</form>
-</body>
-</html>
+{% endblock %}
