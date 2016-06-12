@@ -1,13 +1,93 @@
 {% extends 'layout.html' %}
 {% block content %}
-	<form action="" method="post">
-		Nome: <input type="text" name="nome" /><br />
-		Sobrenome: <input type="text" name="sobrenome" /><br />
-		Matrícula: <input type="text" name="matricula" /><br />
-		Polo: <input type="text" name="polo" /><br />
-		Telefone: <input type="text" name="telefone" /><br />
-		Email: <input type="text" name="email" /><br />
-		Senha: <input type="password" name="senha" /><br />
-		<input type="submit" value="Registrar">
-	</form>
+	<div class="row main">
+				<div class="panel-heading">
+	               <div class="panel-title text-center">
+	               		<h1 class="title">Cadastro de usuário</h1>
+	               		<hr />
+	               	</div>
+	            </div> 
+				<div class="main-login main-center">
+					<form class="form-horizontal" method="post" action="#">
+						
+						<div class="form-group">
+							<label for="name" class="cols-sm-2 control-label">Nome*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="nome" id="nome"  placeholder="Seu nome aqui"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="cols-sm-2 control-label">Sobrenome*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="sobrenome" id="sobrenome"  placeholder="seu sobrenome aqui"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="cols-sm-2 control-label">Senha*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="senha" id="senha"  placeholder="sua senha aqui"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">Matrícula*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="matricula" id="matricula"  placeholder="Sua matrícula"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">Polo*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="polo" id="polo"  placeholder="seu polo (UFRN, ZN)"/>
+								</div>
+							</div>
+						</div>
+					
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">Polo*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="telefone" id="telefone"  placeholder="Seu telefone (cel ou fixo)"/>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="username" class="cols-sm-2 control-label">E-mail*</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="email" id="email"  placeholder="Seu e-mail"/>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="form-group ">
+							<button type="button" class="btn btn-primary btn-lg btn-block login-button">Realizar cadastro</button>
+						</div>
+						<div class="login-register">
+				            <a href="login.html">Login</a>
+				         </div>
+					</form>
+				</div>
+			</div>
 {% endblock %}

@@ -1,8 +1,25 @@
 {% extends 'layout.html' %}
 {% block content %}
+<center>
 	<form action="" method="post">
-		Email: <input type="text" name="email" /><br />
-		Senha: <input type="password" name="senha" /><br />
-		<input type="submit" value="login" />
+
+		<div class="form-group">
+		    <label class="control-label col-md-3">E-mail:</label>
+		    <div class="input-group col-md-7">
+		      <input class="form-control" type="text" name="email">
+		      <span class="input-group-addon">i.e: exemplo@hotmail.com</span>
+		    </div>
+		  </div>
+
+		<div class="form-group">
+		    <label class="control-label col-md-3">Senha:</label>
+		    <div class="input-group col-md-7">
+		      <input class="form-control" type="password" name="senha">
+		      <span class="input-group-addon">No mínimo 6 dígitos</span>
+		    </div>
+		  </div>
+
+		<button type="submit" class="btn btn-primary">Login </button>
 	</form>
+</center>
 {% endblock %}
