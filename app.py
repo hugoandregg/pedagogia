@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, url_for, redirect, request, session, flash
 from functools import wraps
-from flaskext.mysql import MySQL
+from modelo.dao import UsuarioDAO
 import os
 
-mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '123321'
-app.config['MYSQL_DATABASE_DB'] = 'pedagogia'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
 app.secret_key = os.urandom(24)
 
 def login_required(f):
@@ -25,7 +19,14 @@ def login_required(f):
 
 @app.route("/")
 def main():
-	return "tela de inicio"
+	dao = UsuarioDAO()
+	usuario = dao.find_by_id(1)
+	print usuario
+	if usuario is None:
+		return "deu merda"
+	else:
+		return "deu certo"
+
 
 @app.route("/registrar_aluno", methods=['GET', 'POST'])
 def registrar_aluno():
@@ -38,6 +39,8 @@ def registrar_aluno():
 		telefone = request.form['telefone']
 		senha = request.form['senha']
 
+
+		'''
 		db = mysql.connect()
 		cursor = db.cursor()
 		print cursor
@@ -72,6 +75,7 @@ def registrar_aluno():
 			return redirect(url_for("aluno"))
 		else:
 			flash('Problema para inserir os dados')
+		'''
 		
 	return render_template('registrar_aluno.html')
 
@@ -81,6 +85,31 @@ def login():
 	if request.method == 'POST':
 		email = request.form['email']
 		senha = request.form['senha']
+
+		dao = UsuarioDAO()
+		usuario = dao.find_by_email(email)
+
+		if senha == usuario.senha:
+			print usuario.id
+			print usuario.papel_id
+			permissao = dao.papel(usuario.papel_id)
+			print permissao
+
+			if permissao == "administrador":
+				session['logged_in'] = True
+				flash("Seja bem vindo!")
+				return redirect(url_for("admin"))
+			elif permissao == "pedagogo" or permissao == "psicologo" or permissao == "assistente social":
+				session['logged_in'] = True
+				flash("Seja bem vindo!")
+				return redirect(url_for("funcionario"))
+			else:
+				session['logged_in'] = True
+				flash("Seja bem vindo!")
+				return redirect(url_for("aluno"))
+		else:
+			flash('email e/ou senha incorreto(s)')
+		'''
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT * FROM usuario WHERE email='" + email + "' AND senha='" + senha + "'")
 		data = cursor.fetchone()
@@ -94,6 +123,7 @@ def login():
 
 			cursor.execute("SELECT permissao FROM papel WHERE id =" + str(papel_id))
 			data = cursor.fetchone()[0]
+		
 
 			if data == "administrador":
 				session['logged_in'] = True
@@ -107,6 +137,7 @@ def login():
 				session['logged_in'] = True
 				flash("Seja bem vindo!")
 				return redirect(url_for("aluno"))
+		'''
 	return render_template('login.html')
 
 @app.route("/admin")
