@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
       <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+      
     <title>Pedagogia</title>    
   </head>
     
@@ -40,7 +42,7 @@
 
 
      
-    <div class="container">
+    
       {% for message in get_flashed_messages() %}
         <div class="alert alert-success" role="alert">
         {{ message }}
@@ -49,7 +51,7 @@
       
       {% block content %}
       {% endblock %}
-    </div>
+    
 		 
   </body>
 </html>

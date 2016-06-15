@@ -19,13 +19,7 @@ def login_required(f):
 
 @app.route("/")
 def main():
-	dao = UsuarioDAO()
-	usuario = dao.find_by_id(1)
-	print usuario
-	if usuario is None:
-		return "deu merda"
-	else:
-		return "deu certo"
+	return render_template('home.html')
 
 
 @app.route("/registrar_aluno", methods=['GET', 'POST'])
