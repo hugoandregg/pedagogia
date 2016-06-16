@@ -54,36 +54,7 @@
             </div>
             <div class="col-md-9">
                 <div class="profile-content">
-                  <!-- Conteúdo aqui -->
-                    <table id="example" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Funcionário</th>                       
-                                <th>Horário</th>         
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Id</th>
-                                <th>Funcionário</th>                       
-                                <th>Horário</th>            
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            {% if expedientes is none %}
-                                <h3 class="text-center">Você não registrou nenhum expediente :(</h3>
-                            {% else %}		
-                                {% for expediente in expedientes %}
-                                    <tr>                  
-                                        <td>{{ expediente.id }}</td>
-                                        <td>lulu</td>            
-                                        <td>{{ expediente.hora_inicio }}</td>    
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
-                        </tbody>
-                    </table>
+                   Some user related content goes here...
                 </div>
             </div>
         </div>
@@ -93,25 +64,4 @@
 <br>
 
 
-
-
-    <script>
-        $(document).ready(function() {
-            var table = $('#example').DataTable( {
-                dom: 'Bfrtip',
-                lengthChange: false,
-                paging: false,
-                bInfo: false,
-                buttons: [
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ]
-            } );
-            
-            table.buttons().container().appendTo( '#example_filter' ).insertBefore($("label"));
-            $(".dt-buttons").css({'float': 'left'});
-            $(".btn-default").css({"margin-bottom": "5px"});
-        } );
-    </script>
 {% endblock %}

@@ -135,7 +135,7 @@ def marcar_expediente():
 @app.route("/aluno")
 @login_required
 def aluno():
-	return "welcome aluno"
+	return render_template('aluno.html')
 
 def current_user():
 	usuarioDao = UsuarioDAO()
