@@ -56,6 +56,7 @@ class UsuarioDAO(object):
 		for row in data:
 			usuario = Usuario(row)
 			usuarios.append(usuario)
+		return usuarios
 
 	def update(self, id, papel_id, email, senha, nome, sobrenome, telefone):
 		id = str(id)
@@ -98,8 +99,6 @@ class UsuarioDAO(object):
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT permissao FROM papel WHERE id=" + papel_id)
 		data = cursor.fetchone()[0]
-		print data
-
 		return str(data)
 
 
@@ -147,6 +146,7 @@ class AlunoDAO(object):
 		for row in data:
 			aluno = Aluno(row)
 			alunos.append(aluno)
+		return alunos
 
 	def update(self, id, papel_id, email, senha, nome, sobrenome, telefone, matricula, polo):
 		id = str(id)
@@ -233,6 +233,7 @@ class FuncionarioDAO(object):
 		for row in data:
 			funcionario = Funcionario(row)
 			funcionarios.append(funcionario)
+		return funcionarios
 
 	def update(self, id, papel_id, email, senha, nome, sobrenome, telefone, sala, ramal):
 		id = str(id)
@@ -321,6 +322,7 @@ class PapelDAO(object):
 		for row in data:
 			papel = papel(row)
 			papeis.append(papel)
+		return papeis
 
 	def update(self, id, permissao):
 		id = str(id)
@@ -360,12 +362,12 @@ class PapelDAO(object):
 
 
 class ConsultaDAO(object):
-	def insert(self, aluno_id, funcionario_id, status, hora_inicio, hora_fim, comentario):
+	def insert(self, aluno_id, funcionario_id, status, hora_inicio, comentario):
 		db = mysql.connect()
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("""INSERT INTO consulta(aluno_id, funcionario_id, status, hora_inicio, hora_fim, comentario) VALUES (%s,%s,%s,%s,%s,%s)""",(aluno_id, funcionario_id, status, hora_inicio, hora_fim, comentario))
+			cursor.execute("""INSERT INTO consulta(aluno_id, funcionario_id, status, hora_inicio, comentario) VALUES (%s,%s,%s,%s,%s)""",(aluno_id, funcionario_id, status, hora_inicio, comentario))
 			db.commit()
 			return True
 		except db.Error, e:
@@ -396,14 +398,15 @@ class ConsultaDAO(object):
 		for row in data:
 			consulta = Consulta(row)
 			consultas.append(consulta)
+		return consultas
 
-	def update(self, id, aluno_id, funcionario_id, status, hora_inicio, hora_fim, comentario):
+	def update(self, id, aluno_id, funcionario_id, status, hora_inicio, comentario):
 		id = str(id)
 		db = mysql.connect()
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("UPDATE consulta SET aluno_id=%s, funcionario_id=%s, status='%s', hora_inicio='%s', hora_fim='%s', comentario='%s' WHERE id=%s", (aluno_id, funcionario_id, status, hora_inicio, hora_fim, comentario, id))
+			cursor.execute("UPDATE consulta SET aluno_id=%s, funcionario_id=%s, status='%s', hora_inicio='%s', comentario='%s' WHERE id=%s", (aluno_id, funcionario_id, status, hora_inicio, comentario, id))
 			db.commit()
 			return True
 		except db.Error, e:
@@ -435,12 +438,12 @@ class ConsultaDAO(object):
 
 
 class ExpedienteDAO(object):
-	def insert(self, funcionario_id, hora_inicio, hora_fim):
+	def insert(self, funcionario_id, hora_inicio):
 		db = mysql.connect()
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("""INSERT INTO expediente(funcionario_id, hora_inicio, hora_fim) VALUES (%s,%s,%s)""",(funcionario_id, hora_inicio, hora_fim))
+			cursor.execute("""INSERT INTO expediente(funcionario_id, hora_inicio) VALUES (%s,%s)""",(funcionario_id, hora_inicio))
 			db.commit()
 			return True
 		except db.Error, e:
@@ -472,6 +475,7 @@ class ExpedienteDAO(object):
 		for row in data:
 			expediente = Expediente(row)
 			expedientes.append(expediente)
+		return expedientes
 
 	def find_all(self):
 		cursor = mysql.connect().cursor()
@@ -483,14 +487,15 @@ class ExpedienteDAO(object):
 		for row in data:
 			expediente = Expediente(row)
 			expedientes.append(expediente)
+		return expedientes
 
-	def update(self, id, funcionario_id, hora_inicio, hora_fim):
+	def update(self, id, funcionario_id, hora_inicio):
 		id = str(id)
 		db = mysql.connect()
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("UPDATE expediente SET funcionario_id=%s, hora_inicio='%s', hora_fim='%s' WHERE id=%s", (funcionario_id, hora_inicio, hora_fim, id))
+			cursor.execute("UPDATE expediente SET funcionario_id=%s, hora_inicio='%s' WHERE id=%s", (funcionario_id, hora_inicio, id))
 			db.commit()
 			return True
 		except db.Error, e:
@@ -558,6 +563,7 @@ class AvaliacaoDAO(object):
 		for row in data:
 			avaliacao = Avaliacao(row)
 			avaliacoes.append(avaliacao)
+		return avaliacoes
 
 	def update(self, id, aluno_id, consulta_id, avaliacao):
 		id = str(id)
@@ -633,6 +639,7 @@ class Encaminha_paraDAO(object):
 		for row in data:
 			encaminha_para = Encaminha_para(row)
 			encaminham_para.append(encaminha_para)
+		return encaminham_para
 
 	def update(self, id, aluno_id, funcionario_origem, funcionario_destino):
 		id = str(id)

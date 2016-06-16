@@ -2,7 +2,7 @@
 from flask import Flask, render_template, url_for, redirect, request, session, flash
 from functools import wraps
 from modelo.dao import *
-import os
+import os, datetime
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -113,7 +113,24 @@ def funcionario():
 	usuario = current_user()
 	expedienteDao = ExpedienteDAO()
 	expedientes = expedienteDao.find_by_funcionario(usuario.id)
+	print usuario.id
+	print expedientes
 	return render_template('funcionario.html', expedientes=expedientes)
+
+@app.route("/marcar_expediente", methods=['GET', 'POST'])
+@login_required
+def marcar_expediente():
+	if request.method == 'POST':
+		hora_inicio = request.form['hora_inicio']
+		#datetime.datetime.fromtimestamp(hora_inicio).strftime('%Y-%m-%d %H:%M:%S')
+		usuario = current_user()
+		expedienteDao = ExpedienteDAO()
+		if expedienteDao.insert(usuario.id, hora_inicio):
+			flash("Expediente cadastrado com sucesso!")
+			return redirect(url_for("funcionario"))
+		else:
+			flash('Problema para cadastrar funcionario')
+	return render_template('marcar_expediente.html')
 
 @app.route("/aluno")
 @login_required

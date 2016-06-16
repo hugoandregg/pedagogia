@@ -47,29 +47,24 @@ class Consulta(object):
 	funcionario_id = None
 	status = None
 	hora_inicio = None
-	hora_fim = None
 	comentario = None
 
 	def __init__(self, tupla):
-		self.id, self.aluno_id, self.funcionario_id, self.status, self.hora_inicio, self.hora_fim, self.comentario = tupla
+		self.id, self.aluno_id, self.funcionario_id, self.status, self.hora_inicio, self.comentario = tupla
 		self.id = int(self.id)
 		self.aluno_id = int(self.aluno_id)
 		self.funcionario_id = int(self.funcionario_id)
 		self.hora_inicio = datetime.datetime.fromtimestamp(int(self.hora_inicio)).strftime('%Y-%m-%d %H:%M:%S')
-		self.hora_fim = datetime.datetime.fromtimestamp(int(self.hora_fim)).strftime('%Y-%m-%d %H:%M:%S')
 
 class Expediente(object):
 	id = None
 	funcionario_id = None
 	hora_inicio = None
-	hora_fim = None
 
 	def __init__(self, tupla):
-		self.id, self.funcionario_id, self.hora_inicio, self.hora_fim = tupla
+		self.id, self.funcionario_id, self.hora_inicio= tupla
 		self.id = int(self.id)
 		self.funcionario_id = int(self.funcionario_id)
-		self.hora_inicio = datetime.datetime.fromtimestamp(int(self.hora_inicio)).strftime('%Y-%m-%d %H:%M:%S')
-		self.hora_fim = datetime.datetime.fromtimestamp(int(self.hora_fim)).strftime('%Y-%m-%d %H:%M:%S')
 
 class Avaliacao(object):
 	id = None
