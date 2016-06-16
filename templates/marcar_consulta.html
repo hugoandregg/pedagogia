@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<div class="row main">
+		<div class="panel-heading">
+           <div class="panel-title text-center">
+           		<h1 class="title">Cadastro de usuário</h1>
+           		<hr />
+           	</div>
+        </div> 
+		<div class="main-login main-center">
+			<form class="form-horizontal" method="post" action="">
+
+				<div class="form-group">
+					<label for="name" class="cols-sm-2 control-label">Especialidade</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+							<select class="form-control" id="especialidade">
+								<option value="3">Pedagogia</option>
+								<option value="4">Psicologia</option>
+								<option value="5">Assistencia social</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="name" class="cols-sm-2 control-label">Profissional*</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+							<select class="form-control" name="funcionario_id" id="profissional"></select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="name" class="cols-sm-2 control-label">Data e horário*</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+							<select class="form-control" name="hora_inicio" id="datetimepicker"></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group ">
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar funcionário</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			jQuery.datetimepicker.setLocale('pt');
+			jQuery('#datetimepicker').datetimepicker();
+
+			$("#especialidade").change(function(){
+				$.getJSON($SCRIPT_ROOT + '/_funcionarios', {
+					especialidade: $("#especialidade").val()
+				}, function(data) {
+					console.log(data);
+					var funcionarios = data.funcionarios;
+					console.log(funcionarios[0]);
+					var input;
+					$("#profissional").empty();
+					for(var i=0; i < funcionarios.length; i++){
+						input = "<option value='" + funcionarios[i][0] + "'>" + funcionarios[i][1] + "</option>";
+						$("#profissional").append(input);
+					}
+				});
+			});
+
+			$("#profissional").change(function() {
+
+			});
+		});
+	</script>
+{% endblock %}

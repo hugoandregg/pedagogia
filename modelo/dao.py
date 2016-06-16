@@ -235,6 +235,25 @@ class FuncionarioDAO(object):
 			funcionarios.append(funcionario)
 		return funcionarios
 
+	def find_funcionarios(self, papel_id):
+		papel_id = str(papel_id)
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT id, nome FROM usuario INNER JOIN funcionario ON usuario.id=funcionario.usuario_id AND papel_id=" + papel_id)
+		data = cursor.fetchall()
+		funcionarios = []
+		for row in data:
+			funcionarios.append(row)
+		return funcionarios
+
+	def find_all_funcionarios(self):
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT id, nome FROM usuario INNER JOIN funcionario ON usuario.id=funcionario.usuario_id")
+		data = cursor.fetchall()
+		funcionarios = []
+		for row in data:
+			funcionarios.append(row)
+		return funcionarios
+
 	def update(self, id, papel_id, email, senha, nome, sobrenome, telefone, sala, ramal):
 		id = str(id)
 		db = mysql.connect()

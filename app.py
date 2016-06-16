@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, url_for, redirect, request, session, flash
+from flask import Flask, render_template, url_for, jsonify, redirect, request, session, flash
 from functools import wraps
 from modelo.dao import *
 import os, datetime
@@ -136,6 +136,21 @@ def marcar_expediente():
 @login_required
 def aluno():
 	return render_template('aluno.html')
+
+@app.route("/marcar_consulta", methods=['GET', 'POST'])
+@login_required
+def marcar_consulta():
+	funcionarioDao = FuncionarioDAO()
+	funcionarios = funcionarioDao.find_all_funcionarios()
+	return render_template('marcar_consulta.html', funcionarios=funcionarios)
+
+@app.route("/_funcionarios")
+def funcionarios():
+	papel_id = request.args.get('especialidade', 0, type=int)
+	funcionarioDao = FuncionarioDAO()
+	funcionarios = funcionarioDao.find_funcionarios(papel_id)
+	print funcionarios
+	return jsonify(funcionarios=funcionarios)
 
 def current_user():
 	usuarioDao = UsuarioDAO()
