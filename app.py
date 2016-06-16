@@ -81,10 +81,7 @@ def login():
 		usuario = dao.find_by_email(email)
 
 		if senha == usuario.senha:
-			print usuario.id
-			print usuario.papel_id
 			permissao = dao.papel(usuario.papel_id)
-			print permissao
 
 			if permissao == "administrador":
 				session['current_user'] = usuario.id
@@ -113,8 +110,6 @@ def funcionario():
 	usuario = current_user()
 	expedienteDao = ExpedienteDAO()
 	expedientes = expedienteDao.find_by_funcionario(usuario.id)
-	print usuario.id
-	print expedientes
 	return render_template('funcionario.html', expedientes=expedientes)
 
 @app.route("/marcar_expediente", methods=['GET', 'POST'])
@@ -140,17 +135,36 @@ def aluno():
 @app.route("/marcar_consulta", methods=['GET', 'POST'])
 @login_required
 def marcar_consulta():
-	funcionarioDao = FuncionarioDAO()
-	funcionarios = funcionarioDao.find_all_funcionarios()
-	return render_template('marcar_consulta.html', funcionarios=funcionarios)
+	if request.method == 'POST':
+		funcionario_id = request.form['funcionario_id']
+		hora_inicio = request.form['hora_inicio']
+		#hora_inicio = datetime.datetime.strptime(hora_inicio, '%Y-%m-%d %H:%M:%S').date()
+		aluno = current_user()
+		status = 'Marcado'
+		consultaDao = ConsultaDAO()
+		if consultaDao.insert(aluno.id, funcionario_id, status, hora_inicio, None):
+			flash("Consulta marcada com sucesso!")
+			return redirect(url_for("aluno"))
+		else:
+			flash('Problema para marcar a consulta')
+	return render_template('marcar_consulta.html')
 
 @app.route("/_funcionarios")
+@login_required
 def funcionarios():
 	papel_id = request.args.get('especialidade', 0, type=int)
 	funcionarioDao = FuncionarioDAO()
 	funcionarios = funcionarioDao.find_funcionarios(papel_id)
-	print funcionarios
 	return jsonify(funcionarios=funcionarios)
+
+@app.route("/_expedientes")
+@login_required
+def expedientes():
+	funcionario_id = request.args.get('profissional', 0, type=int)
+	expedienteDao = ExpedienteDAO()
+	expedientes = expedienteDao.find_all_funcionarios(funcionario_id)
+	print expedientes
+	return jsonify(expedientes=expedientes)
 
 def current_user():
 	usuarioDao = UsuarioDAO()

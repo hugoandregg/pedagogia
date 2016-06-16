@@ -39,40 +39,64 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-							<select class="form-control" name="hora_inicio" id="datetimepicker"></select>
+							<select class="form-control" name="hora_inicio" id="expediente"></select>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group ">
-					<button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar funcionário</button>
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Marcar consulta</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			jQuery.datetimepicker.setLocale('pt');
-			jQuery('#datetimepicker').datetimepicker();
+			window.onload = function() {
+				$("#especialidade").trigger("change");
+			}
 
 			$("#especialidade").change(function(){
 				$.getJSON($SCRIPT_ROOT + '/_funcionarios', {
 					especialidade: $("#especialidade").val()
 				}, function(data) {
-					console.log(data);
 					var funcionarios = data.funcionarios;
-					console.log(funcionarios[0]);
 					var input;
 					$("#profissional").empty();
-					for(var i=0; i < funcionarios.length; i++){
-						input = "<option value='" + funcionarios[i][0] + "'>" + funcionarios[i][1] + "</option>";
+					if (funcionarios.length != 0){
+						for(var i=0; i < funcionarios.length; i++){
+							input = "<option value='" + funcionarios[i][0] + "'>" + funcionarios[i][1] + "</option>";
+							$("#profissional").append(input);
+						}
+					} else {
+						input = "<option>Nenhum funcionário disponível</option>";
 						$("#profissional").append(input);
 					}
+					
+					$("#profissional").trigger("change");
 				});
 			});
 
 			$("#profissional").change(function() {
-
+				$.getJSON($SCRIPT_ROOT + '/_expedientes', {
+					profissional: $("#profissional").val()
+				}, function(data) {
+					console.log(data);
+					var expedientes = data.expedientes;
+					console.log(expedientes[0]);
+					var input;
+					$("#expediente").empty();
+					if (expedientes.length != 0){
+						for(var i=0; i < expedientes.length; i++){
+							input = "<option value='" + expedientes[i] + "'>" + expedientes[i] + "</option>";
+							$("#expediente").append(input);
+						}
+					} else {
+						input = "<option>Nenhum horário disponível</option>";
+						$("#expediente").append(input);
+					}
+					
+				});
 			});
 		});
 	</script>
