@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>admin</title>
-</head>
-<body>
-	{% for message in get_flashed_messages() %}
-      <div class="alert alert-success" role="alert">
-      {{ message }}
-      </div>
-    {% endfor %}
+{% extends 'layout.html' %}
+{% block content %}
 	<p>eu sou admin</p>
 	<a href="logout">Deslogar</a>
-</body>
-</html>
+	<a href="/registrar_funcionario">registrar funcionario</a>
+{% endblock %}

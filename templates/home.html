@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('../static/images/human_processor.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2 style="background-color:#000;transparency:40%;">Bem-vindo ao Sistema De Atendimento em pedagogia do Instituto Metrópole Digital!</h2>
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the second background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('../static/images/imd.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2 style="background-color:#000;">Estamos no primeiro andar do IMD, sala A202! Atendemos das 8h às 18h</h2>
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the third background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('../static/images/imd_chefia.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2 style="background-color:#000;">Ivonildo descendo o pipoco em quem não dá valor à pedagogia</myh2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+
+    </div>
+
+        <div class="navbar navbar-fixed-bottom" style="background-color:lightgrey;">
+            <center>
+            <h4>Av. Capitão-Mor Gouveia, 3733 - Lagoa Nova, Natal - RN</h4>
+            <h4>Contato: 3232-5313</h4>
+            </center>
+        </div>
+
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+    
+{% endblock %}
