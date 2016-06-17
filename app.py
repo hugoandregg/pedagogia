@@ -102,17 +102,19 @@ def login():
 @app.route("/admin")
 @login_required
 def admin():
+	usuario = current_user()
 	consultaDao = ConsultaDAO()
 	consultas = consultaDao.find_all()
-	return render_template('admin.html', consultas=consultas)
+	return render_template('admin.html', consultas=consultas, usuario=usuario)
 
 @app.route("/consultas_avaliadas")
 @login_required
 def consultas_avaliadas():
+	usuario = current_user()
 	avaliacaoDao = AvaliacaoDAO()
 	avaliacoes = avaliacaoDao.find_consultas_avaliadas()
 	print avaliacoes
-	return render_template('consultas_avaliadas.html', avaliacoes=avaliacoes)
+	return render_template('consultas_avaliadas.html', avaliacoes=avaliacoes, usuario=usuario)
 
 @app.route("/funcionario")
 @login_required
@@ -120,7 +122,7 @@ def funcionario():
 	usuario = current_user()
 	consultaDao = ConsultaDAO()
 	consultas = consultaDao.find_by_funcionario(usuario.id)
-	return render_template('funcionario.html', consultas=consultas)
+	return render_template('funcionario.html', consultas=consultas, usuario=usuario)
 
 @app.route("/editar_consulta/<int:id>", methods=['GET', 'POST'])
 @login_required
@@ -168,7 +170,7 @@ def meus_expedientes():
 	usuario = current_user()
 	expedienteDao = ExpedienteDAO()
 	expedientes = expedienteDao.find_by_funcionario(usuario.id)
-	return render_template('meus_expedientes.html', expedientes=expedientes)
+	return render_template('meus_expedientes.html', expedientes=expedientes, usuario=usuario)
 
 @app.route("/marcar_expediente", methods=['GET', 'POST'])
 @login_required
@@ -191,7 +193,7 @@ def aluno():
 	usuario = current_user()
 	consultaDao = ConsultaDAO()
 	consultas = consultaDao.find_by_aluno(usuario.id)
-	return render_template('aluno.html', consultas=consultas)
+	return render_template('aluno.html', consultas=consultas, usuario=usuario)
 
 @app.route("/marcar_consulta", methods=['GET', 'POST'])
 @login_required
