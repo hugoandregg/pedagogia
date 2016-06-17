@@ -23,6 +23,7 @@
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.dataTables.min.css" />
     <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" />
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     
     <title>Pedagogia</title>    
   </head>
@@ -37,18 +38,18 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <div class="navbar-brand navbar-brand-centered">S.A Pedagogia IMD</div>
+	      <div style="width:175px;" class="navbar-brand navbar-brand-centered">Setor Pedagógico  IMD</div>
 	    </div>
 
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="navbar-brand-centered">
 	      <ul class="nav navbar-nav">
-	        <li><a href="">Início</a></li>
-	        <li><a href="">Equipe</a></li>
+	        <li><a href="/">Início</a></li>
+	    
 	      </ul>
           <ul class="nav navbar-nav navbar-right">
           {% if session.current_user %}
-	          <li><a href="/logout">Sair</a></li>
+	          <li><a class="glyphicon glyphicon-off" style="font-size:16px;" href="/logout"></a></li>
           {% else %}
             <li><a href="/login">Entrar</a></li>
             <li><a href="/registrar_aluno">Cadastre-se</a></li>
