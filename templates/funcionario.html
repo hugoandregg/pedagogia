@@ -28,24 +28,19 @@
                     <div class="profile-usermenu">
                         <ul class="nav">
                             <li class="active">
-                                <a href="#">
-                                <i class="glyphicon glyphicon-home"></i>
-                                Home </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                <i class="glyphicon glyphicon-time"></i>
-                                Meu expediente </a>
-                            </li>
-                            <li>
-                                <a href="#" target="_blank">
+                                <a href="/funcionario">
                                 <i class="glyphicon glyphicon-list"></i>
                                 Minhas consultas </a>
                             </li>
                             <li>
-                                <a href="#">
-                                <i class="glyphicon glyphicon-off"></i>
-                                Sair </a>
+                                <a href="/meus_expedientes">
+                                <i class="glyphicon glyphicon-time"></i>
+                                Meus expedientes </a>
+                            </li>
+                            <li>
+                                <a href="/marcar_expediente">
+                                <i class="fa fa-calendar"></i>
+                                Minhas consultas </a>
                             </li>
                         </ul>
                     </div>
@@ -63,9 +58,7 @@
                                 <th>Status</th>  
                                 <th>Hora</th>
                                 <th>Comentário</th>
-                                <th>#</th> 
-                                <th>#</th>
-                                <th>#</th>      
+                                <th>Opções</th>     
                             </tr>
                         </thead>
                         <tfoot>
@@ -75,9 +68,7 @@
                                 <th>Status</th>  
                                 <th>Hora</th>
                                 <th>Comentário</th>
-                                <th>#</th>  
-                                <th>#</th>
-                                <th>#</th>        
+                                <th>Opções</th>       
                             </tr>
                         </tfoot>
                         <tbody>
@@ -91,9 +82,11 @@
                                         <td>{{ consulta.status }}</td>            
                                         <td>{{ consulta.hora_inicio }}</td> 
                                         <td>{{ consulta.comentario }}</td> 
-                                        <td><a href="/editar_consulta/{{ consulta.id }}">Editar</a></td>  
-                                        <td><a href="/realizar_consulta/{{ consulta.id }}">Realizar consulta</a></td>
-                                        <td><a href="/cancelar_consulta/{{ consulta.id }}">Cancelar</a></td>
+                                        <td>
+                                        	<a href="/editar_consulta/{{ consulta.id }}" title="Editar consulta" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        	<a href="/realizar_consulta/{{ consulta.id }}" title="Realizar consulta" class="btn btn-success btn-sm"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                        	<a href="/cancelar_consulta/{{ consulta.id }}" title="Cancelar consulta" class="btn btn-warning btn-sm"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
@@ -107,26 +100,23 @@
 <br>
 <br>
 
-
-
-
-    <script>
-        $(document).ready(function() {
-            var table = $('#example').DataTable( {
-                dom: 'Bfrtip',
-                lengthChange: false,
-                paging: false,
-                bInfo: false,
-                buttons: [
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdfHtml5'
-                ]
-            } );
-            
-            table.buttons().container().appendTo( '#example_filter' ).insertBefore($("label").css({'float': 'right'}));
-            $(".dt-buttons").css({'float': 'left'});
-            $(".btn-default").css({"margin-bottom": "5px"});
+<script>
+    $(document).ready(function() {
+        var table = $('#example').DataTable( {
+            dom: 'Bfrtip',
+            lengthChange: false,
+            paging: false,
+            bInfo: false,
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
         } );
-    </script>
+        
+        table.buttons().container().appendTo( '#example_filter' ).insertBefore($("label").css({'float': 'right'}));
+        $(".dt-buttons").css({'float': 'left'});
+        $(".btn-default").css({"margin-bottom": "5px"});
+    } );
+</script>
 {% endblock %}

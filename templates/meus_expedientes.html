@@ -1,37 +1,105 @@
 {% extends 'layout.html' %}
 {% block content %}
-	<div class="col-md-9">
-        <div class="profile-content">
-          <!-- Conteúdo aqui -->
-            <table id="example" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Funcionário</th> 
-                        <th>Hora</th>         
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>Funcionário</th>
-                        <th>Hora</th> 
-                    </tr>
-                </tfoot>
-                <tbody>
-                    {% if expedientes is none %}
-                        <h3 class="text-center">Você não tem nenhum expediente no momento :(</h3>
-                    {% else %}		
-                        {% for expediente in expedientes %}
-                            <tr>                  
-                                <td>{{ expediente.id }}</td>
-                                <td>{{ expediente.funcionario_id }}</td>
-                                <td>{{ expediente.hora_inicio }}</td>
+<div>
+    <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="../static/images/prolo.jpg" class="img-responsive" alt="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            Marcus Doe
+                        </div>
+                        <div class="profile-usertitle-job">
+                            Developer
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li>
+                                <a href="/funcionario" target="_blank">
+                                <i class="glyphicon glyphicon-list"></i>
+                                Minhas consultas </a>
+                            </li>
+                            <li class="active">
+                                <a href="/meus_expedientes">
+                                <i class="glyphicon glyphicon-time"></i>
+                                Meus expedientes </a>
+                            </li>
+                            <li>
+                                <a href="/marcar_expediente" target="_blank">
+                                <i class="fa fa-calendar"></i>
+                                Minhas consultas </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+        	<div class="col-md-9">
+                <div class="profile-content">
+                  <!-- Conteúdo aqui -->
+                    <table id="example" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Funcionário</th> 
+                                <th>Hora</th>         
                             </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Funcionário</th>
+                                <th>Hora</th> 
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% if expedientes is none %}
+                                <h3 class="text-center">Você não tem nenhum expediente no momento :(</h3>
+                            {% else %}		
+                                {% for expediente in expedientes %}
+                                    <tr>                  
+                                        <td>{{ expediente.id }}</td>
+                                        <td>{{ expediente.funcionario_id }}</td>
+                                        <td>{{ expediente.hora_inicio }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var table = $('#example').DataTable( {
+            dom: 'Bfrtip',
+            lengthChange: false,
+            paging: false,
+            bInfo: false,
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        } );
+        
+        table.buttons().container().appendTo( '#example_filter' ).insertBefore($("label").css({'float': 'right'}));
+        $(".dt-buttons").css({'float': 'left'});
+        $(".btn-default").css({"margin-bottom": "5px"});
+    } );
+</script>
 {% endblock %}
