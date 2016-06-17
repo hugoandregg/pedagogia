@@ -108,6 +108,54 @@ def admin():
 @login_required
 def funcionario():
 	usuario = current_user()
+	consultaDao = ConsultaDAO()
+	consultas = consultaDao.find_by_funcionario(usuario.id)
+	return render_template('funcionario.html', consultas=consultas)
+
+@app.route("/editar_consulta/<int:id>", methods=['GET', 'POST'])
+@login_required
+def editar_consulta(id):
+	consultaDao = ConsultaDAO()
+	consulta = consultaDao.find_by_id(id)
+	if request.method == 'POST':
+		status = request.form['status']
+		hora_inicio = request.form['hora_inicio']
+		comentario = request.form['comentario']
+		if consultaDao.update(id, consulta.aluno_id, consulta.funcionario_id, status, hora_inicio, comentario):
+			flash("Consulta atualizada com sucesso!")
+			return redirect(url_for("funcionario"))
+		else:
+			flash('Problema para atualizar a consulta')
+	return render_template('editar_consulta.html', consulta=consulta)
+
+@app.route("/realizar_consulta/<int:id>")
+@login_required
+def realizar_consulta(id):
+	consultaDao = ConsultaDAO()
+	consulta = consultaDao.find_by_id(id)
+	if consultaDao.update(id, consulta.aluno_id, consulta.funcionario_id, 'Realizada', consulta.hora_inicio, consulta.comentario):
+		flash("Consulta realizada com sucesso!")
+		return redirect(url_for("funcionario"))
+	else:
+		flash('Problema para realizar a consulta')
+		return redirect(url_for("funcionario"))
+
+@app.route("/cancelar_consulta/<int:id>")
+@login_required
+def cancelar_consulta(id):
+	consultaDao = ConsultaDAO()
+	consulta = consultaDao.find_by_id(id)
+	if consultaDao.update(id, consulta.aluno_id, consulta.funcionario_id, 'Cancelada', consulta.hora_inicio, consulta.comentario):
+		flash("Consulta realizada com sucesso!")
+		return redirect(url_for("funcionario"))
+	else:
+		flash('Problema para realizar a consulta')
+		return redirect(url_for("funcionario"))
+
+@app.route("/meus_expedientes")
+@login_required
+def meus_expedientes():
+	usuario = current_user()
 	expedienteDao = ExpedienteDAO()
 	expedientes = expedienteDao.find_by_funcionario(usuario.id)
 	return render_template('funcionario.html', expedientes=expedientes)
@@ -130,7 +178,10 @@ def marcar_expediente():
 @app.route("/aluno")
 @login_required
 def aluno():
-	return render_template('aluno.html')
+	usuario = current_user()
+	consultaDao = ConsultaDAO()
+	consultas = consultaDao.find_by_aluno(usuario.id)
+	return render_template('aluno.html', consultas=consultas)
 
 @app.route("/marcar_consulta", methods=['GET', 'POST'])
 @login_required

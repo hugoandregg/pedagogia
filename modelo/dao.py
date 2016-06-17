@@ -407,6 +407,32 @@ class ConsultaDAO(object):
 		consulta = Consulta(data)
 		return consulta
 
+	def find_by_aluno(self, aluno_id):
+		aluno_id = str(aluno_id)
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * FROM consulta WHERE aluno_id=" + aluno_id)
+		data = cursor.fetchall()
+
+		consulta = None
+		consultas = []
+		for row in data:
+			consulta = Consulta(row)
+			consultas.append(consulta)
+		return consultas
+
+	def find_by_funcionario(self, funcionario_id):
+		funcionario_id = str(funcionario_id)
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * FROM consulta WHERE funcionario_id=" + funcionario_id)
+		data = cursor.fetchall()
+
+		consulta = None
+		consultas = []
+		for row in data:
+			consulta = Consulta(row)
+			consultas.append(consulta)
+		return consultas
+
 	def find_all(self):
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT * FROM consulta")
@@ -425,7 +451,7 @@ class ConsultaDAO(object):
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("UPDATE consulta SET aluno_id=%s, funcionario_id=%s, status='%s', hora_inicio='%s', comentario='%s' WHERE id=%s", (aluno_id, funcionario_id, status, hora_inicio, comentario, id))
+			cursor.execute("UPDATE consulta SET aluno_id=%s, funcionario_id=%s, status=%s, hora_inicio=%s, comentario=%s WHERE id=%s", (aluno_id, funcionario_id, status, hora_inicio, comentario, id))
 			db.commit()
 			return True
 		except db.Error, e:

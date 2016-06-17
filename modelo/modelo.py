@@ -54,7 +54,6 @@ class Consulta(object):
 		self.id = int(self.id)
 		self.aluno_id = int(self.aluno_id)
 		self.funcionario_id = int(self.funcionario_id)
-		self.hora_inicio = datetime.datetime.fromtimestamp(int(self.hora_inicio)).strftime('%Y-%m-%d %H:%M:%S')
 
 class Expediente(object):
 	id = None

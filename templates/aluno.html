@@ -54,7 +54,49 @@
             </div>
             <div class="col-md-9">
                 <div class="profile-content">
-                   Some user related content goes here...
+                   <table id="example" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Funcionário</th>                       
+                                <th>Status</th>  
+                                <th>Hora</th>
+                                <th>Comentário</th>
+                                <th>#</th>      
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Funcionário</th>                       
+                                <th>Status</th>  
+                                <th>Hora</th>
+                                <th>Comentário</th>
+                                <th>#</th>       
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% if consultas is none %}
+                                <h3 class="text-center">Você não tem nenhuma consulta no momento :(</h3>
+                            {% else %}      
+                                {% for consulta in consultas %}
+                                    <tr>                  
+                                        <td>{{ consulta.id }}</td>
+                                        <td>{{ consulta.funcionario_id }}</td>
+                                        <td>{{ consulta.status }}</td>            
+                                        <td>{{ consulta.hora_inicio }}</td> 
+                                        <td>{{ consulta.comentario }}</td> 
+                                        <td>{% if consulta.status == "Realizada" %}
+                                                <a href="/avaliar_consulta/{{ consulta.id }}">Avaliar</a>
+                                            {% else %}
+                                                <a href="/avaliar_consulta/{{ consulta.id }}" style="pointer-events: none;">Avaliar</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -63,5 +105,23 @@
 <br>
 <br>
 
-
+ <script>
+    $(document).ready(function() {
+        var table = $('#example').DataTable( {
+            dom: 'Bfrtip',
+            lengthChange: false,
+            paging: false,
+            bInfo: false,
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        } );
+        
+        table.buttons().container().appendTo( '#example_filter' ).insertBefore($("label").css({'float': 'right'}));
+        $(".dt-buttons").css({'float': 'left'});
+        $(".btn-default").css({"margin-bottom": "5px"});
+    } );
+</script>
 {% endblock %}

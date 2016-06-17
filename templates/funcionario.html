@@ -59,26 +59,41 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Funcionário</th>                       
-                                <th>Horário</th>         
+                                <th>Aluno</th>                       
+                                <th>Status</th>  
+                                <th>Hora</th>
+                                <th>Comentário</th>
+                                <th>#</th> 
+                                <th>#</th>
+                                <th>#</th>      
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Id</th>
-                                <th>Funcionário</th>                       
-                                <th>Horário</th>            
+                                <th>Aluno</th>                       
+                                <th>Status</th>  
+                                <th>Hora</th>
+                                <th>Comentário</th>
+                                <th>#</th>  
+                                <th>#</th>
+                                <th>#</th>        
                             </tr>
                         </tfoot>
                         <tbody>
-                            {% if expedientes is none %}
-                                <h3 class="text-center">Você não registrou nenhum expediente :(</h3>
+                            {% if consultas is none %}
+                                <h3 class="text-center">Você não tem nenhuma consulta no momento :(</h3>
                             {% else %}		
-                                {% for expediente in expedientes %}
+                                {% for consulta in consultas %}
                                     <tr>                  
-                                        <td>{{ expediente.id }}</td>
-                                        <td>lulu</td>            
-                                        <td>{{ expediente.hora_inicio }}</td>    
+                                        <td>{{ consulta.id }}</td>
+                                        <td>{{ consulta.aluno_id }}</td>
+                                        <td>{{ consulta.status }}</td>            
+                                        <td>{{ consulta.hora_inicio }}</td> 
+                                        <td>{{ consulta.comentario }}</td> 
+                                        <td><a href="/editar_consulta/{{ consulta.id }}">Editar</a></td>  
+                                        <td><a href="/realizar_consulta/{{ consulta.id }}">Realizar consulta</a></td>
+                                        <td><a href="/cancelar_consulta/{{ consulta.id }}">Cancelar</a></td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
