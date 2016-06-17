@@ -6,12 +6,13 @@
             <table id="example" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Consulta</th>
                         <th>Funcionário</th> 
                         <th>Aluno</th>                       
                         <th>Status</th>  
                         <th>Hora</th>
-                        <th>Comentário</th> 
+                        <th>Comentário</th>
+                        <th>Avaliação</th> 
                     </tr>
                 </thead>
                 <tfoot>
@@ -22,20 +23,22 @@
                         <th>Status</th>  
                         <th>Hora</th>
                         <th>Comentário</th>
+                        <th>Avaliação</th> 
                     </tr>
                 </tfoot>
                 <tbody>
-                    {% if consultas is none %}
-                        <h3 class="text-center">Você não tem nenhuma consulta no momento :(</h3>
+                    {% if avaliacoes is none %}
+                        <h3 class="text-center">Você não tem nenhuma avaliação no momento :(</h3>
                     {% else %}		
-                        {% for consulta in consultas %}
+                        {% for avaliacao in avaliacoes %}
                             <tr>                  
-                                <td>{{ consulta.id }}</td>
-                                <td>{{ consulta.funcionario_id }}</td>
-                                <td>{{ consulta.aluno_id }}</td>
-                                <td>{{ consulta.status }}</td>            
-                                <td>{{ consulta.hora_inicio }}</td> 
-                                <td>{{ consulta.comentario }}</td> 
+                                <td>{{ avaliacao[0] }}</td>
+                                <td>{{ avaliacao[6] }}</td>
+                                <td>{{ avaliacao[1] }}</td>
+                                <td>{{ avaliacao[7] }}</td>            
+                                <td>{{ avaliacao[8] }}</td> 
+                                <td>{{ avaliacao[9] }}</td>
+                                <td>{{ avaliacao[3] }}</td> 
                             </tr>
                         {% endfor %}
                     {% endif %}
@@ -43,5 +46,4 @@
             </table>
         </div>
     </div>
-    <a href="/registrar_funcionario">registrar funcionario</a>
 {% endblock %}

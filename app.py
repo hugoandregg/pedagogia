@@ -102,7 +102,17 @@ def login():
 @app.route("/admin")
 @login_required
 def admin():
-	return render_template('admin.html')
+	consultaDao = ConsultaDAO()
+	consultas = consultaDao.find_all()
+	return render_template('admin.html', consultas=consultas)
+
+@app.route("/consultas_avaliadas")
+@login_required
+def consultas_avaliadas():
+	avaliacaoDao = AvaliacaoDAO()
+	avaliacoes = avaliacaoDao.find_consultas_avaliadas()
+	print avaliacoes
+	return render_template('consultas_avaliadas.html', avaliacoes=avaliacoes)
 
 @app.route("/funcionario")
 @login_required
@@ -158,7 +168,7 @@ def meus_expedientes():
 	usuario = current_user()
 	expedienteDao = ExpedienteDAO()
 	expedientes = expedienteDao.find_by_funcionario(usuario.id)
-	return render_template('funcionario.html', expedientes=expedientes)
+	return render_template('meus_expedientes.html', expedientes=expedientes)
 
 @app.route("/marcar_expediente", methods=['GET', 'POST'])
 @login_required
@@ -199,6 +209,30 @@ def marcar_consulta():
 		else:
 			flash('Problema para marcar a consulta')
 	return render_template('marcar_consulta.html')
+
+@app.route("/avaliar_consulta/<int:id>", methods=['GET', 'POST'])
+@login_required
+def avaliar_consulta(id):
+	consultaDao = ConsultaDAO()
+	consulta = consultaDao.find_by_id(id)
+	avaliacaoDao = AvaliacaoDAO()
+	avaliacaoObj = avaliacaoDao.find_by_consulta(consulta.id)
+	if request.method == 'POST':
+		avaliacao = request.form['avaliacao']
+		usuario = current_user()
+		if avaliacaoObj is not None:
+			if avaliacaoDao.update(avaliacaoObj.id, usuario.id, consulta.id, avaliacao):
+				flash("Consulta avaliada com sucesso!")
+				return redirect(url_for("aluno"))
+			else:
+				flash('Problema para avaliar a consulta')
+		else:
+			if avaliacaoDao.insert(usuario.id, consulta.id, avaliacao):
+				flash("Consulta avaliada com sucesso!")
+				return redirect(url_for("aluno"))
+			else:
+				flash('Problema para avaliar a consulta')
+	return render_template('avaliar_consulta.html', avaliacao=avaliacaoObj)
 
 @app.route("/_funcionarios")
 @login_required

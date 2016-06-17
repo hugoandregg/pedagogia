@@ -609,6 +609,25 @@ class AvaliacaoDAO(object):
 		avaliacao = Avaliacao(data)
 		return avaliacao
 
+	def find_by_consulta(self, consulta_id):
+		consulta_id = str(consulta_id)
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * FROM avaliacao WHERE consulta_id=" + consulta_id)
+		data = cursor.fetchone()
+		if data is not None:
+			avaliacao = Avaliacao(data)
+			return avaliacao
+		return None
+
+	def find_consultas_avaliadas(self):
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * FROM avaliacao INNER JOIN consulta ON avaliacao.consulta_id=consulta.id")
+		data = cursor.fetchall()
+		avaliacoes = []
+		for row in data:
+			avaliacoes.append(row)
+		return avaliacoes
+
 	def find_all(self):
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT * FROM avaliacao")
@@ -627,7 +646,7 @@ class AvaliacaoDAO(object):
 		cursor = db.cursor()
 		
 		try:
-			cursor.execute("UPDATE avaliacao SET aluno_id=%s, consulta_id=%s, avaliacao='%s' WHERE id=%s", (aluno_id, consulta_id, avaliacao, id))
+			cursor.execute("UPDATE avaliacao SET aluno_id=%s, consulta_id=%s, avaliacao=%s WHERE id=%s", (aluno_id, consulta_id, avaliacao, id))
 			db.commit()
 			return True
 		except db.Error, e:
